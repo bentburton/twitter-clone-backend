@@ -41,6 +41,6 @@
     "docker:push": "docker push registry.heroku.com/ben-twitter-clone-backend/web",
     "heroku:release": "heroku container:release web -a ben-twitter-clone-backend",
     "heroku:logs": "heroku logis --tail",
-    "deploy": "yarn docker:run && yarn docker:build && yarn docker:tag && yarn docker:push && yarn heroku:release"
+    "deploy": "yarn docker:build && yarn docker:tag && yarn docker:push && yarn heroku:release"
   }
 }
