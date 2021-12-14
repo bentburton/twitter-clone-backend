@@ -13,6 +13,7 @@ export interface IUser extends Document {
   password: string;
   transform: () => IUser;
   token: string;
+  avatar: string;
 }
 
 /**
@@ -21,6 +22,7 @@ export interface IUser extends Document {
 const schema = new Schema<IUser>({
   username: { type: SchemaTypes.String, required: true, unique: true },
   password: { type: SchemaTypes.String, required: true },
+  avatar: { type: SchemaTypes.String, required: true },
 });
 
 // user collection name

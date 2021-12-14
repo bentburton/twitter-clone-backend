@@ -9,6 +9,7 @@ export const UserSchema = gql`
     id: ID!
     username: String!
     token: String!
+    avatar: String!
   }
 
   input RegisterUserInput {
@@ -23,6 +24,7 @@ export const UserSchema = gql`
 
   extend type Query {
     users: [User!]!
+    currentUser: User!
   }
 
   extend type Mutation {

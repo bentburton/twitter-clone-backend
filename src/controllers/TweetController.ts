@@ -1,12 +1,7 @@
 import { ApolloError } from 'apollo-server';
 import { Connection } from 'mongoose';
 import TweetModel, { ITweet } from '../models/TweetModel';
-import { getUserFromToken } from '../util/auth';
-
-interface AuthenticatedEndpointContext {
-  connection: Connection;
-  auth: string;
-}
+import { getUserFromToken, AuthenticatedEndpointContext } from '../util/auth';
 
 /**
  *
@@ -22,7 +17,7 @@ export const getAllTweets = async (connection: Connection) => {
   let list: ITweet[];
 
   try {
-    list = await TweetModel(connection).find();
+    list = await TweetModel(connection).find().sort({ createdAt: -1 });
     if (list != null && list.length > 0) {
       list = list.map(u => {
         return u.transform();
@@ -156,9 +151,9 @@ export const retweet = async ({ connection, auth }: AuthenticatedEndpointContext
     console.error('> createTweet error: ', error);
     throw new ApolloError(`Error looking up retweet w/ id: ${id}`);
   }
-
-  if (previousRetweet)
-    throw new ApolloError(`Tweet has already been retweeted by this user id: ${id}`);
+  console.log(previousRetweet);
+  if (previousRetweet && previousRetweet.length > 0)
+    throw new ApolloError(`You have already retweeted this tweet`);
 
   try {
     const newTweet = {

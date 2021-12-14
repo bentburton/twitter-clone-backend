@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server';
 import { Connection } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import UserModel, { IUser } from '../models/UserModel';
-import { generateToken } from '../util/auth';
+import { generateToken, getUserFromToken, AuthenticatedEndpointContext } from '../util/auth';
 
 /**
  *
@@ -47,6 +47,27 @@ export const getUser = async (connection: Connection, id: String) => {
     }
   } catch {
     throw new ApolloError(`Error retrieving user with id: ${id}`);
+  }
+
+  return user;
+};
+
+/**
+ * gets all users
+ * @param connection database connection
+ * @returns {IUser[]} user list
+ */
+export const getUserByAuth = async ({ connection, auth }: AuthenticatedEndpointContext) => {
+  let user: IUser | null;
+
+  const userFromAuth = await getUserFromToken({ auth });
+  try {
+    user = await UserModel(connection).findById(userFromAuth.id);
+    if (user != null) {
+      user = user.transform();
+    }
+  } catch {
+    throw new ApolloError(`Error retrieving user with id: ${userFromAuth.id}`);
   }
 
   return user;
@@ -110,6 +131,7 @@ export const registerUser = async (connection: Connection, args: IUser) => {
   try {
     const newUser = args;
     newUser.password = await bcrypt.hash(args.password, 10);
+    newUser.avatar = `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 50)}`;
     createdUser = (await UserModel(connection).create(newUser)).transform();
 
     createdUser.token = generateToken({ id: createdUser.id, username: createdUser.username });

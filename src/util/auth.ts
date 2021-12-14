@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server';
 import dotenv from 'dotenv';
+import { Connection } from 'mongoose';
 
 dotenv.config();
 const { JWT_SECRET } = process.env;
@@ -45,3 +46,8 @@ export const getUserFromToken = async ({
   }
   throw new ApolloError('Token miss formatted');
 };
+
+export interface AuthenticatedEndpointContext {
+  connection: Connection;
+  auth: string;
+}
