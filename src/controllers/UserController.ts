@@ -87,7 +87,7 @@ export const loginUser = async (connection: Connection, args: LoginUserArgs) => 
   let user: IUser | null;
 
   try {
-    user = await UserModel(connection).findOne({ username: args.username });
+    user = await UserModel(connection).findOne({ username: args.username.toLowerCase() });
 
     if (user != null) {
       user = user.transform();
@@ -121,7 +121,7 @@ export const registerUser = async (connection: Connection, args: IUser) => {
   let existingUser;
 
   try {
-    existingUser = await UserModel(connection).findOne({ username: args.username });
+    existingUser = await UserModel(connection).findOne({ username: args.username.toLowerCase() });
   } catch (error) {
     console.error('> createUser error checking if user already exists', error);
   }

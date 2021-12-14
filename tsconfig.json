@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "noEmit": true,
+    "noEmit": false,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "module": "commonjs",
@@ -12,6 +12,7 @@
     "declaration": true,
     "strict": true,
     "target": "esnext",
+    "outDir": "dist",
     "types": [
       "node"
     ]
