@@ -55,7 +55,7 @@ export const getTweet = async (connection: Connection, id: string) => {
 
 /**
  * creates tweet
- * @param connection database connection
+ * @param {connection, auth} database connection and auth token
  * @param args tweet
  * @returns {ITweet} created tweet
  */
@@ -84,8 +84,8 @@ export const createTweet = async (
 
 /**
  * updates tweet
- * @param connection database connection
- * @param args tweet
+ * @param {connection, auth} database connection and auth token
+ * @param {id, body} id tweet and body of comment
  * @returns {ITweet | null} updated tweet or null
  */
 

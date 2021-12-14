@@ -12,6 +12,10 @@ interface JWTTokenDecoded {
   username: string;
 }
 
+/**
+ * @description generates the jwt token
+ */
+
 export const generateToken = ({ id, username }: JWTTokenDecoded) => {
   return jwt.sign(
     {
@@ -25,6 +29,10 @@ export const generateToken = ({ id, username }: JWTTokenDecoded) => {
 interface GetUserFromTokenParams {
   auth: string;
 }
+
+/**
+ * @description decrypts token and return information
+ */
 
 export const getUserFromToken = async ({
   auth,
